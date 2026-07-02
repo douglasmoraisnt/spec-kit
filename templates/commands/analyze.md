@@ -79,8 +79,9 @@ Load only the minimal necessary context from each artifact:
 
 - Overview/Context
 - Functional Requirements
+- Security & Privacy requirements (SEC-###, data sensitivity, authn/authz, abuse cases)
 - Success Criteria (measurable outcomes — e.g., performance, security, availability, user success, business impact)
-- User Stories
+- User Stories (with acceptance scenario IDs AS-###)
 - Edge Cases (if present)
 
 **From plan.md:**
@@ -106,8 +107,8 @@ Load only the minimal necessary context from each artifact:
 
 Create internal representations (do not include raw artifacts in output):
 
-- **Requirements inventory**: For each Functional Requirement (FR-###) and Success Criterion (SC-###), record a stable key. Use the explicit FR-/SC- identifier as the primary key when present, and optionally also derive an imperative-phrase slug for readability (e.g., "User can upload file" → `user-can-upload-file`). Include only Success Criteria items that require buildable work (e.g., load-testing infrastructure, security audit tooling), and exclude post-launch outcome metrics and business KPIs (e.g., "Reduce support tickets by 50%").
-- **User story/action inventory**: Discrete user actions with acceptance criteria
+- **Requirements inventory**: For each Functional Requirement (FR-###), Security Requirement (SEC-###), and Success Criterion (SC-###), record a stable key. Use the explicit FR-/SEC-/SC- identifier as the primary key when present, and optionally also derive an imperative-phrase slug for readability (e.g., "User can upload file" → `user-can-upload-file`). Include only Success Criteria items that require buildable work (e.g., load-testing infrastructure, security audit tooling), and exclude post-launch outcome metrics and business KPIs (e.g., "Reduce support tickets by 50%").
+- **User story/action inventory**: Discrete user actions with acceptance criteria, keyed by acceptance scenario ID (AS-###) when present
 - **Task coverage mapping**: Map each task to one or more requirements or stories (inference by keyword / explicit reference patterns like IDs or key phrases)
 - **Constitution rule set**: Extract principle names and MUST/SHOULD normative statements
 
@@ -149,12 +150,27 @@ Focus on high-signal findings. Limit to 50 findings total; aggregate remainder i
 - Task ordering contradictions (e.g., integration tasks before foundational setup tasks without dependency note)
 - Conflicting requirements (e.g., one requires Next.js while other specifies Vue)
 
+#### G. Security Coverage
+
+- SEC-### requirements with zero associated tasks (always HIGH or CRITICAL)
+- Spec Security & Privacy section missing, empty, or "Not applicable" without justification
+- Sensitive data identified in spec (PII, credentials, payment data) but no protection tasks in tasks.md
+- Plan Security Design section missing when spec declares SEC-### requirements
+- Untrusted inputs / trust boundaries in plan with no mitigation listed
+
+#### H. Test Coverage
+
+- Acceptance scenarios (AS-###) with no mapped test task (HIGH unless tests explicitly opted out in tasks.md)
+- Test tasks that reference no AS-###/FR-###/SEC-### (unmapped tests)
+- Test Strategy section in plan.md missing or lacking coverage target without justification
+- Test opt-out present in tasks.md without recorded justification
+
 ### 5. Severity Assignment
 
 Use this heuristic to prioritize findings:
 
-- **CRITICAL**: Violates constitution MUST, missing core spec artifact, or requirement with zero coverage that blocks baseline functionality
-- **HIGH**: Duplicate or conflicting requirement, ambiguous security/performance attribute, untestable acceptance criterion
+- **CRITICAL**: Violates constitution MUST, missing core spec artifact, requirement with zero coverage that blocks baseline functionality, or SEC-### requirement involving regulated/sensitive data with zero task coverage
+- **HIGH**: Duplicate or conflicting requirement, ambiguous security/performance attribute, untestable acceptance criterion, SEC-### without task coverage, acceptance scenario without test coverage (when tests not opted out)
 - **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case
 - **LOW**: Style/wording improvements, minor redundancy not affecting execution order
 
@@ -175,15 +191,22 @@ Output a Markdown report (no file writes) with the following structure:
 | Requirement Key | Has Task? | Task IDs | Notes |
 |-----------------|-----------|----------|-------|
 
+**Test Coverage Table:** (acceptance scenarios → test tasks)
+
+| AS ID | Has Test Task? | Test Task IDs | Notes |
+|-------|----------------|---------------|-------|
+
 **Constitution Alignment Issues:** (if any)
 
 **Unmapped Tasks:** (if any)
 
 **Metrics:**
 
-- Total Requirements
+- Total Requirements (FR + SEC + buildable SC)
 - Total Tasks
 - Coverage % (requirements with >=1 task)
+- Security Coverage % (SEC-### with >=1 task)
+- Test Coverage % (AS-### with >=1 test task, or "opted out")
 - Ambiguity Count
 - Duplication Count
 - Critical Issues Count

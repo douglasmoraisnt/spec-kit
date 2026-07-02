@@ -146,8 +146,17 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **Phase-by-phase execution**: Complete each phase before moving to the next
    - **Respect dependencies**: Run sequential tasks in order, parallel tasks [P] can run together  
    - **Follow TDD approach**: Execute test tasks before their corresponding implementation tasks
+   - **Follow existing conventions**: Honor the Codebase Context section of plan.md (detected
+     guidelines, linter configs, existing utilities) — never re-implement what already exists
    - **File-based coordination**: Tasks affecting the same files must run sequentially
    - **Validation checkpoints**: Verify each phase completion before proceeding
+   - **User story acceptance gate**: At each user story checkpoint, before starting the next story:
+     1. Locate the acceptance scenarios (AS-###) for the completed story in spec.md
+     2. Run the tests that cover those scenarios (or execute the scenario manually if tests were
+        explicitly opted out) and confirm each Given/When/Then outcome is satisfied
+     3. Report a per-scenario pass/fail summary (e.g., "US1: AS-001 ✓, AS-002 ✓")
+     4. If any scenario fails, fix it before proceeding — do NOT start the next story with a
+        failing acceptance scenario in a completed one
 
 7. Implementation execution rules:
    - **Setup first**: Initialize project structure, dependencies, configuration
@@ -167,8 +176,11 @@ You **MUST** consider the user input before proceeding (if not empty).
 9. Completion validation:
    - Verify all required tasks are completed
    - Check that implemented features match the original specification
-   - Validate that tests pass and coverage meets requirements
-   - Confirm the implementation follows the technical plan
+   - Validate that tests pass and coverage meets the target defined in plan.md Test Strategy
+   - Verify every acceptance scenario (AS-###) passes; include a final traceability summary
+     (AS-### → test → status) in the completion report
+   - Verify every SEC-### security requirement is implemented (cite where)
+   - Confirm the implementation follows the technical plan and detected code conventions
 
 Note: This command assumes a complete task breakdown exists in tasks.md. If tasks are incomplete or missing, suggest running `__SPECKIT_COMMAND_TASKS__` first to regenerate the task list.
 
@@ -213,6 +225,8 @@ Report final status with summary of completed work.
 ## Done When
 
 - [ ] All tasks in tasks.md completed and marked `[X]`
+- [ ] All acceptance scenarios (AS-###) verified passing, per-story gates included
+- [ ] All security requirements (SEC-###) implemented and reported
 - [ ] Implementation validated against specification, plan, and test coverage
 - [ ] Extension hooks dispatched or skipped according to the rules in Mandatory Post-Execution Hooks above
 - [ ] Completion reported to user with summary of completed work

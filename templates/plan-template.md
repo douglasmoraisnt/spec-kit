@@ -36,6 +36,56 @@
 
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
+## Codebase Context *(brownfield projects — mandatory when code already exists)*
+
+<!--
+  ACTION REQUIRED: If the repository already contains source code, ground this plan
+  in the EXISTING codebase before designing anything. Cite real files and directories.
+  For greenfield projects (empty repo), state "Greenfield — no existing code" and
+  remove the placeholder rows.
+-->
+
+**Existing Conventions**: [Code guidelines detected in repo — e.g., CODE_GUIDELINES.md, CONTRIBUTING.md, .editorconfig, linter/formatter configs. Cite the actual files found. The plan MUST follow them.]
+
+**Relevant Existing Modules**: [Modules/services/entities this feature will touch or extend, with real paths — e.g., `src/services/auth.py` (session handling), `src/models/user.py` (User entity)]
+
+**Integration Points**: [Where the new code plugs into existing code — real entry points, routes, events, shared schemas]
+
+**Reuse Over Rebuild**: [Existing utilities/patterns that MUST be reused instead of re-implemented — e.g., existing error handling, validation helpers, API client]
+
+## Test Strategy *(mandatory)*
+
+<!--
+  ACTION REQUIRED: Define how this feature will be verified. Tests are the default —
+  omitting a test level requires explicit justification here (e.g., "throwaway spike,
+  user opted out"). Every acceptance scenario (AS-###) in spec.md must map to at
+  least one planned test.
+-->
+
+**Test Levels**: [Which levels apply and why — unit / integration / contract / end-to-end. e.g., "Contract tests for the 2 new endpoints; integration tests per acceptance scenario; unit tests for parsing logic"]
+
+**Acceptance Scenario Coverage**: [Map AS-### IDs from spec.md to planned test types — e.g., "AS-001, AS-002 → integration; AS-003 → e2e"]
+
+**Coverage Target**: [e.g., "80% line coverage on new code" or constitution-mandated target or N/A with justification]
+
+**Test Data & Environment**: [Fixtures, factories, seeds, external service mocking strategy]
+
+## Security Design *(mandatory when spec has Security & Privacy requirements)*
+
+<!--
+  ACTION REQUIRED: Address each SEC-### requirement from spec.md with a concrete
+  design decision. Add a lightweight threat review: for each untrusted input or
+  trust boundary this feature introduces, note the threat and mitigation.
+-->
+
+**SEC Requirements Mapping**: [SEC-001 → design decision; SEC-002 → design decision; ...]
+
+| Trust Boundary / Untrusted Input | Threat (STRIDE category) | Mitigation |
+|----------------------------------|--------------------------|------------|
+| [e.g., user-supplied file upload] | [e.g., Tampering, DoS]   | [e.g., type/size validation, sandboxed processing] |
+
+**Secrets & Sensitive Data Handling**: [How secrets are stored/accessed; which fields are redacted from logs/errors]
+
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*

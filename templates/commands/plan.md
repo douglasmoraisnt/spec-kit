@@ -62,8 +62,23 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 2. **Load context**: Read FEATURE_SPEC and `/memory/constitution.md`. Load IMPL_PLAN template (already copied).
 
-3. **Execute plan workflow**: Follow the structure in IMPL_PLAN template to:
+3. **Detect existing conventions (brownfield)**: If the repository already contains source code:
+   - Look for code guideline files at the repo root and honor them as authoritative:
+     `CODE_GUIDELINES.md`, `DIRETRIZES_DE_CODIGO_E_ARQUITETURA.md`, `CONTRIBUTING.md`, `STYLEGUIDE.md`, `.editorconfig`
+   - Look for linter/formatter configs (e.g., `.eslintrc*`, `eslint.config.*`, `.prettierrc*`, `ruff.toml`, `pyproject.toml` [tool sections], `.golangci.yml`, `rubocop.yml`)
+   - Identify the modules, entities, and integration points the feature will touch (real paths)
+   - Record all findings in the **Codebase Context** section of the plan; the design MUST follow
+     detected conventions and reuse existing utilities instead of re-implementing them
+   - For greenfield repositories, state "Greenfield — no existing code" and adopt
+     market-standard conventions for the chosen stack (document which)
+
+4. **Execute plan workflow**: Follow the structure in IMPL_PLAN template to:
    - Fill Technical Context (mark unknowns as "NEEDS CLARIFICATION")
+   - Fill Codebase Context from the detection step above
+   - Fill Test Strategy: map every acceptance scenario (AS-###) from the spec to a planned test
+     level; define coverage target (from constitution if mandated)
+   - Fill Security Design: address every SEC-### requirement with a concrete design decision;
+     list trust boundaries/untrusted inputs with mitigations
    - Fill Constitution Check section from constitution
    - Evaluate gates (ERROR if violations unjustified)
    - Phase 0: Generate research.md (resolve all NEEDS CLARIFICATION)

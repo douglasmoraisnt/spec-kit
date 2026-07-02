@@ -28,17 +28,45 @@
 [PRINCIPLE_5_DESCRIPTION]
 <!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Engineering Standards
+<!--
+  Concrete, enforceable code standards. Fill with the project's actual choices —
+  prefer market-consolidated defaults for the stack when the project has no
+  established convention yet.
+-->
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+[ENGINEERING_STANDARDS]
+<!-- Example:
+- Linter/Formatter: MUST pass [e.g., ruff+black / eslint+prettier / gofmt+golangci-lint] with repo config; no lint suppressions without inline justification
+- Existing guidelines: If the repo contains CODE_GUIDELINES.md, CONTRIBUTING.md, or equivalent, they take precedence and MUST be followed
+- Naming & structure: [e.g., follow PEP 8 / Google Style Guide / Airbnb Style Guide for the stack]
+- Error handling: Errors MUST be handled explicitly at boundaries; no silent catch/except
+- Logging: Structured logging required; sensitive data (PII, secrets, tokens) MUST never be logged
+- Commits: [e.g., Conventional Commits]; branches: [e.g., type/issue-slug]
+- Architecture decisions: Non-trivial decisions recorded with decision, alternatives, and rationale (in plan research.md or ADRs)
+-->
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Security Requirements
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+[SECURITY_REQUIREMENTS]
+<!-- Example:
+- Every spec MUST complete the Security & Privacy section (data sensitivity, authn/authz, abuse cases); "Not applicable" requires justification
+- Secrets MUST come from environment/secret manager, never hardcoded or committed
+- All external input MUST be validated/sanitized before use (OWASP Top 10 awareness required for web-facing features)
+- Dependency vulnerability scanning MUST run in CI; HIGH/CRITICAL findings block release
+- Least-privilege by default: new endpoints/resources deny access unless explicitly granted
+-->
+
+## Quality Gates & Testing Discipline
+
+[QUALITY_GATES]
+<!-- Example:
+- Tests are the DEFAULT: every acceptance scenario (AS-###) maps to at least one automated test; opting out requires explicit justification recorded in tasks.md
+- Test-first for new behavior: tests written and failing before implementation (Red-Green-Refactor)
+- Coverage: new code MUST reach [e.g., 80%] line coverage; ratchet, never lower
+- CI gates: lint + tests + security scan MUST pass before merge
+- Code review: at least [N] approval(s); reviewers verify constitution compliance, not just correctness
+-->
 
 ## Governance
 <!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->

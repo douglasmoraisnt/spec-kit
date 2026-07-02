@@ -23,6 +23,12 @@
   - Demonstrated to users independently
 -->
 
+<!--
+  Acceptance scenarios use globally unique IDs (AS-001, AS-002, ...) across ALL user stories.
+  These IDs enable end-to-end traceability: spec scenario → task → test → implementation.
+  Downstream commands (tasks, analyze, implement) reference scenarios by these IDs.
+-->
+
 ### User Story 1 - [Brief Title] (Priority: P1)
 
 [Describe this user journey in plain language]
@@ -33,8 +39,8 @@
 
 **Acceptance Scenarios**:
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
-2. **Given** [initial state], **When** [action], **Then** [expected outcome]
+1. **AS-001**: **Given** [initial state], **When** [action], **Then** [expected outcome]
+2. **AS-002**: **Given** [initial state], **When** [action], **Then** [expected outcome]
 
 ---
 
@@ -48,7 +54,7 @@
 
 **Acceptance Scenarios**:
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
+1. **AS-003**: **Given** [initial state], **When** [action], **Then** [expected outcome]
 
 ---
 
@@ -62,11 +68,11 @@
 
 **Acceptance Scenarios**:
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
+1. **AS-004**: **Given** [initial state], **When** [action], **Then** [expected outcome]
 
 ---
 
-[Add more user stories as needed, each with an assigned priority]
+[Add more user stories as needed, each with an assigned priority. Continue the AS-### numbering sequence across stories.]
 
 ### Edge Cases
 
@@ -97,6 +103,25 @@
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+
+### Security & Privacy *(mandatory)*
+
+<!--
+  ACTION REQUIRED: Assess each area below. If an area genuinely does not apply
+  (e.g., no data handled), state "Not applicable" with a one-line justification —
+  do NOT delete the section. Use [NEEDS CLARIFICATION] markers for decisions with
+  legal, financial, or privacy impact that lack a reasonable default.
+-->
+
+**Data Sensitivity**: [What data does this feature touch? Classify: public / internal / confidential / regulated (PII, PHI, payment data). List the sensitive fields explicitly.]
+
+**Authentication & Authorization**: [Who can access this feature? What roles/permissions gate each user story? e.g., "Only authenticated users can X; only admins can Y"]
+
+**Attack Surface & Abuse Cases**: [How could this feature be misused? e.g., "Malicious input in field X", "Enumeration of resource Y", "Abuse of endpoint Z for spam"]
+
+- **SEC-001**: System MUST [security requirement, e.g., "validate and sanitize all user-supplied input before processing"]
+- **SEC-002**: System MUST [access control requirement, e.g., "deny access to resources the user does not own"]
+- **SEC-003**: System MUST [data protection requirement, e.g., "never expose sensitive fields in logs, errors, or API responses"]
 
 ### Key Entities *(include if feature involves data)*
 

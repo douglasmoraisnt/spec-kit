@@ -119,7 +119,18 @@ Given that feature description, do this:
        If empty: ERROR "No feature description provided"
     2. Extract key concepts from description
        Identify: actors, actions, data, constraints
-    3. For unclear aspects:
+    3. **Codebase grounding (brownfield)**: If the repository already contains source code,
+       briefly scan it BEFORE writing requirements:
+       - Identify existing modules, entities, and user-facing capabilities the feature relates to
+       - Reuse the project's established terminology for entities and concepts (avoid inventing
+         new names for things that already exist)
+       - Note existing capabilities the description may overlap with — if the feature appears to
+         duplicate or conflict with existing behavior, surface that as an Assumption or
+         [NEEDS CLARIFICATION]
+       - Keep the spec implementation-agnostic: use the scan for accurate naming, scope, and
+         entity identification only, not for leaking technical details into the spec
+       - Skip silently for greenfield repositories (no source code yet)
+    4. For unclear aspects:
        - Make informed guesses based on context and industry standards
        - Only mark with [NEEDS CLARIFICATION: specific question] if:
          - The choice significantly impacts feature scope or user experience
@@ -127,17 +138,21 @@ Given that feature description, do this:
          - No reasonable default exists
        - **LIMIT: Maximum 3 [NEEDS CLARIFICATION] markers total**
        - Prioritize clarifications by impact: scope > security/privacy > user experience > technical details
-    4. Fill User Scenarios & Testing section
+    5. Fill User Scenarios & Testing section
        If no clear user flow: ERROR "Cannot determine user scenarios"
-    5. Generate Functional Requirements
+       Assign globally unique IDs (AS-001, AS-002, ...) to every acceptance scenario across all user stories
+    6. Generate Functional Requirements
        Each requirement must be testable
        Use reasonable defaults for unspecified details (document assumptions in Assumptions section)
-    6. Define Success Criteria
+    7. Fill Security & Privacy section
+       Classify data sensitivity, define authn/authz expectations, list abuse cases, and generate SEC-### requirements
+       If genuinely not applicable, state "Not applicable" with a one-line justification (never delete the section)
+    8. Define Success Criteria
        Create measurable, technology-agnostic outcomes
        Include both quantitative metrics (time, performance, volume) and qualitative measures (user satisfaction, task completion)
        Each criterion must be verifiable without implementation details
-    7. Identify Key Entities (if data involved)
-    8. Return: SUCCESS (spec ready for planning)
+    9. Identify Key Entities (if data involved)
+    10. Return: SUCCESS (spec ready for planning)
 
 6. Write the specification to SPEC_FILE using the template structure, replacing placeholders with concrete details derived from the feature description (arguments) while preserving section order and headings.
 
@@ -165,10 +180,12 @@ Given that feature description, do this:
       - [ ] Requirements are testable and unambiguous
       - [ ] Success criteria are measurable
       - [ ] Success criteria are technology-agnostic (no implementation details)
-      - [ ] All acceptance scenarios are defined
+      - [ ] All acceptance scenarios are defined with unique AS-### IDs
+      - [ ] Security & Privacy section completed (data sensitivity, authn/authz, abuse cases, SEC-### requirements) or justified as not applicable
       - [ ] Edge cases are identified
       - [ ] Scope is clearly bounded
       - [ ] Dependencies and assumptions identified
+      - [ ] (Brownfield) Terminology matches existing codebase concepts; overlaps with existing features surfaced
       
       ## Feature Readiness
       
